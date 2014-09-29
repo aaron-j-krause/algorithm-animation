@@ -1,0 +1,16 @@
+
+img{
+	width: 100%;
+}
+
+.bubble {
+	height: 70px;
+	background-color: rgb(201, 195, 195);
+}
+
+div{
+	width:250px;
+	float:left;
+	margin-left: 40px;
+	margin-bottom: 20px;
+}
