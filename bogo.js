@@ -2,55 +2,67 @@
 var quote =  {
 	reference: ['a rose', 'by any', 'other', 'name']
 };
-quote.random = betterShuffle(quote.reference);
+quote.random = shuffle(quote.reference);
 
-function betterShuffle(data){
+function shuffle(array){
 
-  var m = data.length, t, i, next = [];
-  for(i in data){
-  	next.push(data[i])
+  var m = array.length, t, i, newArray = [];
+  for(i in array){
+  	newArray.push(array[i]);
   }
   while (m) {
-
     i = Math.floor(Math.random() * m--);
-    t = next[m];
-    next[m] = next[i];
-    next[i] = t;
+    t = newArray[m];
+    newArray[m] = newArray[i];
+    newArray[i] = t;
   }
 
-  return next;
+  return newArray;
 }
 
+
 function bogo(quote){
-	console.log(quote.reference + " : " + quote.random);
-	var c = 0, tic = 0, match;
-	do{
-		tic = quote.reference.length;
+
+	var tic = quote.reference.length, 
+		match, 
+		bubbles = [], 
+		c = 0;
+
+
+		//make array of bubble divs
+		$('.bubble').each(function(){
+			bubbles.push($(this));
+		});
+
+		//check array, populate bubbles
 		for(var i = 0, length = quote.random.length; i < length; i++){
+			var bubble = bubbles[i];
+			bubble.html('<p>' + quote.random[i] + '</p>');
+
 			if(quote.random[i] != quote.reference[i]){
 				tic--;
 			}
 		}
-		console.log(tic);
+
+		//check quote
 		if(tic < quote.reference.length){
-			match = false;
-		}else{
-			match = true;
+			$('header p').show().fadeOut(600);
+			quote.random = shuffle(quote.random);
+
+		} else {
+			$('header p').show()
+						 .attr('color', 'blue')
+						 .text('FINALLY');
 		}
 
-		if(match == false){
-			quote.random = betterShuffle(quote.random);
-		};
-		c++;
-		console.log(quote.random)
 
-	}while(match == false && c < 150);
-	console.log(quote.random +"!!!");
-	console.log(c);
-	return match;
 }
 
 
+$(function(){
+	$('.button').on('click', function(){
+		bogo(quote);
+	})
 
 
-
+});
